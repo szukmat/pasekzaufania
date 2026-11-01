@@ -34,6 +34,13 @@
     .fill { width: 35%; height: 100%; position: relative; border-radius: inherit; background: linear-gradient(90deg, #a68be8, #7350d3); box-shadow: 0 0 20px #7350d325; }
     .fill::after { content: ""; position: absolute; right: 7px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: #ffffffdd; }
     .scale { display: flex; justify-content: space-between; margin-top: 12px; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+    .breakdown { margin-top: 26px; padding: 20px; border-radius: 16px; background: #f5f1fc; }
+    .breakdown h3 { margin: 0 0 15px; color: #594188; font-size: 12px; font-weight: 650; }
+    .breakdown dl { margin: 0; }
+    .breakdown-row { display: flex; align-items: baseline; gap: 14px; }
+    .breakdown-row + .breakdown-row { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e3dcee; }
+    .breakdown dt { font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+    .breakdown dd { order: -1; flex: 0 0 52px; margin: 0; color: var(--purple); font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
     .card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid #ece9ef; margin-top: 28px; padding-top: 22px; }
     .note { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
     button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; min-height: 44px; padding: 10px 15px; border: 1px solid #d8d1e6; border-radius: 12px; background: transparent; color: #594188; font: 600 12px "Segoe UI", system-ui, sans-serif; cursor: pointer; transition: background .2s, border-color .2s; }
@@ -85,6 +92,13 @@
           <div class="fill" id="fill"></div>
         </div>
         <div class="scale" aria-hidden="true"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+        <div class="breakdown" id="breakdown">
+          <h3>Skąd te 35%?</h3>
+          <dl>
+            <div class="breakdown-row"><dt>Akcje Bogu wiadome</dt><dd>30%</dd></div>
+            <div class="breakdown-row"><dt>Prawda o kierunku i mechanice</dt><dd>5%</dd></div>
+          </dl>
+        </div>
         <div class="card-bottom">
           <p class="note" id="note">35% na dziś. Miejsce na więcej — jest.</p>
           <button id="replay" type="button" hidden>
@@ -111,6 +125,7 @@
       const replay = document.getElementById('replay');
       const buttonLabel = document.getElementById('button-label');
       const note = document.getElementById('note');
+      const breakdown = document.getElementById('breakdown');
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       let frame = 0;
       let lastInteger = -1;
@@ -137,6 +152,7 @@
 
       function animate() {
         cancelAnimationFrame(frame);
+        breakdown.hidden = false;
         status.textContent = '';
         replay.disabled = true;
         buttonLabel.textContent = 'Jeszcze chwila…';
@@ -155,6 +171,7 @@
       }
 
       replay.hidden = false;
+      breakdown.hidden = true;
       draw(0);
       note.textContent = 'Zobacz, ile zaufania jest między nami.';
       replay.addEventListener('click', animate);
